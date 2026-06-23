@@ -1,0 +1,53 @@
+title: "Movii — Demo DR multi-región (OCI)"
+description: "Despliegue hub-and-spoke en dos regiones con OPNsense, OKE, MySQL y DNS/Traffic Management."
+schemaVersion: 1.1.0
+locale: "es"
+
+variableGroups:
+  - title: "General"
+    variables: ["compartment_ocid", "primary_region", "standby_region", "deploy_standby"]
+  - title: "Acceso"
+    variables: ["ssh_public_key"]
+  - title: "OPNsense"
+    variables: ["opnsense_image_ocid_primary", "opnsense_image_ocid_standby", "opnsense_shape", "opnsense_ocpus", "opnsense_memory_gb"]
+  - title: "OKE"
+    variables: ["kubernetes_version", "node_shape", "node_count_primary", "node_count_standby"]
+  - title: "MySQL"
+    variables: ["mysql_admin_username", "mysql_admin_password", "mysql_shape", "mysql_data_storage_gb"]
+  - title: "DNS / Traffic Management"
+    variables: ["dns_zone_name", "app_record_name"]
+  - title: "Scheduler"
+    variables: ["enable_scheduler", "shutdown_cron", "startup_cron"]
+  - title: "Oculto"
+    visible: false
+    variables: ["tenancy_ocid", "user_ocid", "fingerprint", "private_key_path", "project_tag"]
+
+variables:
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    title: "Compartment"
+    required: true
+  primary_region:
+    type: string
+    title: "Región principal"
+    default: "us-ashburn-1"
+  standby_region:
+    type: string
+    title: "Región alterna"
+    default: "us-chicago-1"
+  deploy_standby:
+    type: boolean
+    title: "Desplegar región alterna"
+    default: true
+  ssh_public_key:
+    type: oci:core:ssh:publickey
+    title: "Clave SSH pública"
+    required: true
+  mysql_admin_password:
+    type: password
+    title: "Password admin MySQL"
+    required: true
+  dns_zone_name:
+    type: string
+    title: "Dominio piloto (DNS)"
+    default: "dr-demo.example.com"

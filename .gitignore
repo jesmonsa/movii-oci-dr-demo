@@ -1,0 +1,39 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+tfplan
+*.tfplan
+
+# Variables con datos sensibles (NO subir)
+terraform.tfvars
+*.auto.tfvars
+*.tfvars.json
+
+# Claves y credenciales
+*.pem
+*.key
+id_rsa*
+.oci/
+oci_api_key*
+kubeconfig*
+
+# Build / app
+app/target/
+*.class
+*.jar
+
+# SO / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp

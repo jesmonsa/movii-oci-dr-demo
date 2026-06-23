@@ -1,0 +1,27 @@
+# Copia este archivo a terraform.tfvars y completa. NO subas terraform.tfvars a git.
+
+tenancy_ocid     = "ocid1.tenancy.oc1..xxxxx"
+compartment_ocid = "ocid1.compartment.oc1..xxxxx"
+
+primary_region = "us-ashburn-1"
+standby_region = "us-chicago-1"
+deploy_standby = true
+
+ssh_public_key = "ssh-rsa AAAA... tu_clave"
+
+# Imágenes OPNsense de Marketplace (acepta la suscripción en cada región y pega el OCID)
+opnsense_image_ocid_primary = ""
+opnsense_image_ocid_standby = ""
+
+# MySQL
+mysql_admin_username = "admin"
+mysql_admin_password = "CambiaEsteP4ssw0rd!"
+
+# DNS (dominio piloto para la demo)
+dns_zone_name   = "dr-demo.example.com"
+app_record_name = "app"
+
+# Scheduler (UTC). Bogotá = UTC-5.
+enable_scheduler = true
+shutdown_cron    = "0 3 * * *"
+startup_cron     = "0 12 * * 1-5"
