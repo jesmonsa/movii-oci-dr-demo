@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dr-demo-lb
+  annotations:
+    # Load Balancer flexible y pequeño para minimizar costo en el trial.
+    oci.oraclecloud.com/load-balancer-type: "lb"
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "10"
+spec:
+  type: LoadBalancer
+  selector: { app: dr-demo }
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dr-demo-config
+data:
+  # REGION se ajusta por région al desplegar (primary | standby)
+  REGION: "primary"
+  DB_PORT: "3306"
+  DB_NAME: "drdemo"

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dr-demo
+  labels: { app: dr-demo }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: dr-demo }
+  template:
+    metadata:
+      labels: { app: dr-demo }
+    spec:
+      containers:
+        - name: dr-demo
+          # Reemplaza por tu imagen en OCIR: <region-key>.ocir.io/<tenancy-namespace>/movii-dr-demo:latest
+          image: REPLACE_WITH_OCIR_IMAGE
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef: { name: dr-demo-config }
+            - secretRef: { name: dr-demo-db }
+          readinessProbe:
+            httpGet: { path: /health, port: 8080 }
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests: { cpu: "100m", memory: "256Mi" }
+            limits: { cpu: "500m", memory: "512Mi" }

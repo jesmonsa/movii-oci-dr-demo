@@ -1,0 +1,23 @@
+---
+- name: Desplegar app DR demo en OKE
+  hosts: local
+  gather_facts: false
+  vars:
+    kubeconfig: "~/.kube/config"
+    manifests_dir: "../app/k8s"
+  tasks:
+    - name: Aplicar ConfigMap
+      ansible.builtin.command: kubectl apply -f {{ manifests_dir }}/configmap.yaml
+      environment: { KUBECONFIG: "{{ kubeconfig }}" }
+
+    - name: Aplicar Secret (debe existir secret.yaml)
+      ansible.builtin.command: kubectl apply -f {{ manifests_dir }}/secret.yaml
+      environment: { KUBECONFIG: "{{ kubeconfig }}" }
+
+    - name: Aplicar Deployment
+      ansible.builtin.command: kubectl apply -f {{ manifests_dir }}/deployment.yaml
+      environment: { KUBECONFIG: "{{ kubeconfig }}" }
+
+    - name: Aplicar Service (LoadBalancer)
+      ansible.builtin.command: kubectl apply -f {{ manifests_dir }}/service.yaml
+      environment: { KUBECONFIG: "{{ kubeconfig }}" }
