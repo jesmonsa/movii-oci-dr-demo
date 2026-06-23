@@ -162,7 +162,7 @@ resource "oci_core_route_table" "spoke_private" {
 }
 
 #####################
-# Security lists (demo, permisivas dentro de la VCN)
+# Security lists
 #####################
 resource "oci_core_security_list" "common" {
   compartment_id = var.compartment_id
@@ -197,6 +197,41 @@ resource "oci_core_security_list" "common" {
     tcp_options {
       min = 443
       max = 443
+    }
+  }
+  # OKE: API endpoint público (kubectl)
+  ingress_security_rules {
+    protocol = "6"
+    source   = "0.0.0.0/0"
+    tcp_options {
+      min = 6443
+      max = 6443
+    }
+  }
+  # OKE: NodePorts (Load Balancer -> nodos)
+  ingress_security_rules {
+    protocol = "6"
+    source   = var.spoke_cidr
+    tcp_options {
+      min = 30000
+      max = 32767
+    }
+  }
+  # ICMP Path MTU Discovery
+  ingress_security_rules {
+    protocol = "1"
+    source   = "0.0.0.0/0"
+    icmp_options {
+      type = 3
+      code = 4
+    }
+  }
+  # ICMP dentro de la VCN
+  ingress_security_rules {
+    protocol = "1"
+    source   = var.spoke_cidr
+    icmp_options {
+      type = 3
     }
   }
   # MySQL dentro de redes privadas (ajustar en producción)
