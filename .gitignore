@@ -14,18 +14,36 @@ terraform.rc
 tfplan
 *.tfplan
 
-# Variables con datos sensibles (NO subir)
+# Variables con datos sensibles (NO subir). Las plantillas .example SI se versionan.
+*.tfvars
 terraform.tfvars
 *.auto.tfvars
 *.tfvars.json
+!*.tfvars.example
+!terraform.tfvars.example
+
+# Kubernetes / app con secretos reales
+secret.yaml
+**/secret.yaml
+kubeconfig*
+!*.example.yaml
 
 # Claves y credenciales
 *.pem
 *.key
+*.p12
+*.pfx
 id_rsa*
 .oci/
 oci_api_key*
-kubeconfig*
+*auth*token*
+*token*.txt
+
+# Variables de entorno / configuracion local
+.env
+*.env
+.env.*
+!*.env.example
 
 # Build / app
 app/target/
